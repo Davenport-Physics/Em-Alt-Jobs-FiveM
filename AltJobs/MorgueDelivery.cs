@@ -25,9 +25,9 @@ namespace AltJobs
         private int mission_idx  = 0;
         private List<Mission> missions = new List<Mission>()
         {
-            new Mission("blackmarket", 2500, new Vector3(3788.968f, 4462.44f, 5.27f), new ItemIdentifiers(new List<string>(){ "" }, new List<string>(){ "Human heart", "Human brain", "Human bones" })),
-            new Mission("docks", 1500, new Vector3(166.0794f, -3299.002f, 5.28f), new ItemIdentifiers(new List<string>(){ "" }, new List<string>(){ "Human juice", "Questionable Chemicals", "Embalming Fluid" })),
-            new Mission("airport", 2000 , new Vector3(-1279.879f, -2864.998f, 13.24499f), new ItemIdentifiers(new List<string>(){ "" }, new List<string>(){ "Human Bones", "Human Teeth", "Human Liver" }))
+            new Mission("blackmarket", 2500, new Vector3(3788.968f, 4462.44f, 5.27f), new ItemIdentifiers(new List<string>(){ "", "", "" }, new List<string>(){ "Human heart", "Human brain", "Human bones" })),
+            new Mission("docks", 1500, new Vector3(166.0794f, -3299.002f, 5.28f), new ItemIdentifiers(new List<string>(){  "", "", "" }, new List<string>(){ "Human juice", "Questionable Chemicals", "Embalming Fluid" })),
+            new Mission("airport", 2000 , new Vector3(-1279.879f, -2864.998f, 13.24499f), new ItemIdentifiers(new List<string>(){  "", "", "" }, new List<string>(){ "Human Bones", "Human Teeth", "Human Liver" }))
         };
 
         public MorgueDelivery()
@@ -105,7 +105,7 @@ namespace AltJobs
         private void StartJob()
         {
             this.job_started = true;
-            this.mission_idx = rand.Next(0, this.missions.Count-1);
+            this.mission_idx = rand.Next(this.missions.Count);
             this.missions[this.mission_idx].RunJob();
         }
 
@@ -173,10 +173,11 @@ namespace AltJobs
             Exports["PlayExternalSounds"].PlaySound(this.mission_sound_file, .3f);
         }
 
-        private void FadeOut()
+        private async void FadeOut()
         {
-            API.DoScreenFadeOut(5000);
-            API.DoScreenFadeIn(5000);
+            API.DoScreenFadeOut(2500);
+            await Delay(10000);
+            API.DoScreenFadeIn(2500);
         }
 
         public bool IsJobDone()
