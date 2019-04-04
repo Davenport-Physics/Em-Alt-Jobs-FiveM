@@ -25,9 +25,9 @@ namespace AltJobs
         private int mission_idx  = 0;
         private List<Mission> missions = new List<Mission>()
         {
-            new Mission("blackmarket", 2500, new Vector3(3788.968f, 4462.44f, 5.27f), new ItemIdentifiers(new List<string>(){ "", "", "" }, new List<string>(){ "Human heart", "Human brain", "Human bones" })),
-            new Mission("docks", 1500, new Vector3(166.0794f, -3299.002f, 5.28f), new ItemIdentifiers(new List<string>(){  "", "", "" }, new List<string>(){ "Human juice", "Questionable Chemicals", "Embalming Fluid" })),
-            new Mission("airport", 2000 , new Vector3(-1279.879f, -2864.998f, 13.24499f), new ItemIdentifiers(new List<string>(){  "", "", "" }, new List<string>(){ "Human Bones", "Human Teeth", "Human Liver" }))
+            new Mission("blackmarket", 2500, 220*1000, new Vector3(3788.968f, 4462.44f, 5.27f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/SandyBM1.mp3", "sounds/AltJobs/SandyBM1.mp3", "sounds/AltJobs/SandyBM1.mp3" }, new List<string>(){ "Human heart", "Human brain", "Human bones" })),
+            new Mission("docks", 1000, 100*1000, new Vector3(166.0794f, -3299.002f, 5.28f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/SandyD1.mp3", "sounds/AltJobs/SandyD1.mp3", "sounds/AltJobs/SandyD1.mp3" }, new List<string>(){ "Human juice", "Questionable Chemicals", "Embalming Fluid" })),
+            new Mission("airport", 1500 , 160*1000, new Vector3(-1022.813f, -2706.281f, 12.607f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/SandyA1.mp3", "sounds/AltJobs/SandyA1.mp3", "sounds/AltJobs/SandyA1.mp3" }, new List<string>(){ "Human Bones", "Human Teeth", "Human Liver" }))
         };
 
         public MorgueDelivery()
@@ -114,14 +114,16 @@ namespace AltJobs
     public class Mission : BaseScript
     {
         public readonly int base_pay;
+        public readonly int base_timer;
         public readonly string mission_name;
         public readonly Vector3 end_point;
         public readonly ItemIdentifiers items;
-
+        
         private static Random rand = new Random();
 
         private bool is_job_done = false;
 
+        private int mission_timer;
         private int mission_item;
         private string mission_sound_file;
         private string mission_item_name;
@@ -138,10 +140,11 @@ namespace AltJobs
 
         }
 
-        public Mission(string mission_name, int base_pay, Vector3 end_point, ItemIdentifiers items)
+        public Mission(string mission_name, int base_pay, int base_timer, Vector3 end_point, ItemIdentifiers items)
         {
             this.mission_name = mission_name;
             this.base_pay     = base_pay;
+            this.base_timer = base_timer;
             this.end_point    = end_point;
             this.items        = items;
         }
@@ -152,8 +155,10 @@ namespace AltJobs
             while (!is_job_done)
             {
                 await Delay(5);
+                DrawTimeLeft();
                 DrawEndPointIfNearby();
                 HandleIfPlayerIsOnMarker();
+                CheckIfRanOutOfTime();
             }
         }
 
@@ -163,7 +168,10 @@ namespace AltJobs
             this.mission_sound_file = this.items.sound_files[this.mission_item];
             this.mission_item_name  = this.items.item_names[this.mission_item];
 
+            TriggerEvent("addItem", this.mission_item_name, 1, true);
+
             PlayMissionDialog();
+            SetTimer();
             FadeOut();
             API.SetNewWaypoint(this.end_point[0], this.end_point[1]);
         }
@@ -185,6 +193,33 @@ namespace AltJobs
             return this.is_job_done;
         }
 
+        private void DrawTimeLeft()
+        {
+            int diff = (int)((this.mission_timer - API.GetGameTimer()) * 0.001);
+            if (diff >= 120)
+            {
+                Shared.DrawTextSimple(string.Format("~g~{0}~w~ seconds left", diff));
+            }
+            else if (diff >= 60)
+            {
+                Shared.DrawTextSimple(string.Format("~y~{0}~w~ seconds left", diff));
+            }
+            else
+            {
+                Shared.DrawTextSimple(string.Format("~r~{0}~w~ seconds left", diff));
+            }
+        }
+
+        private void CheckIfRanOutOfTime()
+        {
+            if (API.GetGameTimer() >= this.mission_timer)
+            {
+                this.is_job_done = true;
+                TriggerEvent("ShowInformationLeft", 3000, string.Format("You have failed to deliver {0} in time.", this.mission_item_name));
+                API.ClearGpsPlayerWaypoint();
+            }
+        }
+
         private void DrawEndPointIfNearby()
         {
             this.distance_to_end = Vector3.Distance(Game.PlayerPed.Position, this.end_point);
@@ -194,13 +229,25 @@ namespace AltJobs
             }
         }
 
+        private void SetTimer()
+        {
+            this.mission_timer = API.GetGameTimer() + this.base_timer;
+        }
+
         private void HandleIfPlayerIsOnMarker()
         {
-            if (this.distance_to_end <= 1.0)
+            if (this.distance_to_end <= 3.0)
             {
                 this.is_job_done = true;
-                TriggerEvent("ShowInformationLeft", 2500, "You successfully delivered something");
+                TriggerEvent("ShowInformationLeft", 2500, string.Format("You have successfully delivered {0}", this.mission_item_name));
+                TriggerEvent("removeItem", this.mission_item_name, 1);
+                TriggerEvent("addMoney", CalcPayout());
             }
+        }
+
+        private int CalcPayout()
+        {
+            return this.base_pay + (int)((this.mission_timer - API.GetGameTimer()) * .01);
         }
 
     }
