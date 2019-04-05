@@ -25,9 +25,11 @@ namespace AltJobs
         private int mission_idx  = 0;
         private List<Mission> missions = new List<Mission>()
         {
-            new Mission("blackmarket", 2500, 220*1000, new Vector3(3788.968f, 4462.44f, 5.27f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/SandyBM1.mp3", "sounds/AltJobs/SandyBM1.mp3", "sounds/AltJobs/SandyBM1.mp3" }, new List<string>(){ "Human heart", "Human brain", "Human bones" })),
-            new Mission("docks", 1000, 100*1000, new Vector3(166.0794f, -3299.002f, 5.28f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/SandyD1.mp3", "sounds/AltJobs/SandyD1.mp3", "sounds/AltJobs/SandyD1.mp3" }, new List<string>(){ "Human juice", "Questionable Chemicals", "Embalming Fluid" })),
-            new Mission("airport", 1500 , 160*1000, new Vector3(-1022.813f, -2706.281f, 12.607f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/SandyA1.mp3", "sounds/AltJobs/SandyA1.mp3", "sounds/AltJobs/SandyA1.mp3" }, new List<string>(){ "Human Bones", "Human Teeth", "Human Liver" }))
+            new Mission("blackmarket", 2500, 220*1000, new Vector3(3788.968f, 4462.44f, 5.27f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/blackmarket-hearts.mp3", "sounds/AltJobs/blackmarket-brain.mp3", "sounds/AltJobs/SandyBM1.mp3" }, new List<string>(){ "Human heart", "Human brain", "Human bones" })),
+            new Mission("docks", 1250, 105*1000, new Vector3(166.0794f, -3299.002f, 5.28f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/docks-juice.mp3", "sounds/AltJobs/docks-chemicals.mp3", "sounds/AltJobs/SandyD1.mp3" }, new List<string>(){ "Human juice", "Questionable Chemicals", "Embalming Fluid" })),
+            new Mission("airport", 1000 , 85*1000, new Vector3(-1022.813f, -2706.281f, 12.607f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/SandyA1.mp3", "sounds/AltJobs/airport-teeth.mp3", "sounds/AltJobs/airport-liver.mp3" }, new List<string>(){ "Human Bones", "Human Teeth", "Human Liver" })),
+            new Mission("humanelabs", 1000 , 240*1000, new Vector3(3568.353f, 3664.556f, 33.20224f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/SandyA1.mp3", "sounds/AltJobs/SandyA1.mp3", "sounds/AltJobs/humanelabs-brain.mp3" }, new List<string>(){ "Human juice", "Questionable Chemicals", "Human brain" })),
+            new Mission("nudistcolony", 4000 , 300*1000, new Vector3(-1097.769f, 4945.581f, 217.5335f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/nudistcolony-bones.mp3", "sounds/AltJobs/SandyA1.mp3", "sounds/AltJobs/nudistcolony-juice.mp3" }, new List<string>(){ "Human Bones", "Human Teeth", "Human juice" }))
         };
 
         public MorgueDelivery()
@@ -164,6 +166,7 @@ namespace AltJobs
 
         public void InitJob()
         {
+            this.is_job_done        = false;
             this.mission_item       = rand.Next(this.items.item_names.Count);
             this.mission_sound_file = this.items.sound_files[this.mission_item];
             this.mission_item_name  = this.items.item_names[this.mission_item];
@@ -183,8 +186,8 @@ namespace AltJobs
 
         private async void FadeOut()
         {
-            API.DoScreenFadeOut(2500);
-            await Delay(10000);
+            API.DoScreenFadeOut(1000);
+            await Delay(7500);
             API.DoScreenFadeIn(2500);
         }
 
