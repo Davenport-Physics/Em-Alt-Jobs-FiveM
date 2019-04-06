@@ -245,6 +245,11 @@ namespace AltJobs
         {
             if (this.distance_to_end <= 3.0)
             {
+                if (Exports["GTALife"].countItems(this.mission_item_name) == 0)
+                {
+                    Shared.DrawTextSimple(string.Format("Insufficient {0}'s on person.", this.mission_item_name));
+                    return;
+                }
                 this.is_job_done = true;
                 Exports["PlayExternalSounds"].PlaySound(this.mission_sound_file_end, .3f);
                 TriggerEvent("ShowInformationLeft", 2500, string.Format("You have successfully delivered {0}", this.mission_item_name));
