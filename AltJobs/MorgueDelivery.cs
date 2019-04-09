@@ -22,15 +22,16 @@ namespace AltJobs
 
         private Random rand = new Random();
 
-        private int mission_idx  = 0;
+        private int last_mission_idx = -1;
+        private int mission_idx      = 0;
         private List<Mission> missions = new List<Mission>()
         {
-            new Mission("blackmarket", 2500, 210*1000, new Vector3(3788.968f, 4462.44f, 5.27f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/blackmarket-hearts.mp3", "sounds/AltJobs/blackmarket-brain.mp3", "sounds/AltJobs/SandyBM1.mp3" }, new List<string>(){ "", "", "" } , new List<string>(){ "Human heart", "Human brain", "Human bones" })),
-            new Mission("docks", 1250, 95*1000, new Vector3(166.0794f, -3299.002f, 5.28f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/docks-juice.mp3", "sounds/AltJobs/docks-chemicals.mp3", "sounds/AltJobs/SandyD1.mp3" }, new List<string>(){ "", "", "" } , new List<string>(){ "Human juice", "Questionable Chemicals", "Embalming Fluid" })),
-            new Mission("airport", 1000 , 75*1000, new Vector3(-1022.813f, -2706.281f, 12.607f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/SandyA1.mp3", "sounds/AltJobs/airport-teeth.mp3", "sounds/AltJobs/airport-liver.mp3" }, new List<string>(){ "", "", "" } , new List<string>(){ "Human Bones", "Human Teeth", "Human Liver" })),
-            new Mission("humanelabs", 2500 , 230*1000, new Vector3(3568.353f, 3664.556f, 33.20224f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/SandyA1.mp3", "sounds/AltJobs/SandyA1.mp3", "sounds/AltJobs/humanelabs-brain.mp3" }, new List<string>(){ "", "", "" } , new List<string>(){ "Human juice", "Questionable Chemicals", "Human brain" })),
-            new Mission("nudistcolony", 3500 , 290*1000, new Vector3(-1097.769f, 4945.581f, 217.5335f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/nudistcolony-bones.mp3", "sounds/AltJobs/SandyA1.mp3", "sounds/AltJobs/nudistcolony-juice.mp3" }, new List<string>(){ "", "", "" } , new List<string>(){ "Human Bones", "Human Teeth", "Human juice" })),
-            new Mission("butcher", 3500 , 290*1000, new Vector3(-163.5959f, 6191.262f, 30.98f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/nudistcolony-bones.mp3", "sounds/AltJobs/SandyA1.mp3", "sounds/AltJobs/nudistcolony-juice.mp3" }, new List<string>(){ "", "", "" } , new List<string>(){ "Human Bones", "Human Teeth", "Human juice" }))
+            new Mission("blackmarket", 2500, 210*1000, new Vector3(3788.968f, 4462.44f, 5.27f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/blackmarket-heart.mp3", "sounds/AltJobs/blackmarket-brain.mp3", "sounds/AltJobs/blackmarket-bones.mp3" }, new List<string>(){ "sounds/AltJobs/blackmarket-heart-ending.mp3", "html/sounds/AltJobs/blackmarket-brain-ending.mp3", "sounds/AltJobs/blackmarket-bones-ending.mp3" } , new List<string>(){ "Human Heart", "Human Brain", "Human Bones" })),
+            new Mission("docks", 1250, 95*1000, new Vector3(166.0794f, -3299.002f, 5.28f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/docks-juice.mp3", "sounds/AltJobs/docks-chemicals.mp3", "sounds/AltJobs/docks-fluids.mp3" }, new List<string>(){ "", "", "" } , new List<string>(){ "Human Juice", "Questionable Chemicals", "Embalming Fluid" })),
+            new Mission("airport", 1000 , 75*1000, new Vector3(-1022.813f, -2706.281f, 12.607f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/airport-bones.mp3", "sounds/AltJobs/airport-teeth.mp3", "sounds/AltJobs/airport-liver.mp3" }, new List<string>(){ "sounds/AltJobs/airport-bones-end.mp3", "sounds/AltJobs/airport-teeth-end.mp3", "sounds/AltJobs/airport-liver-end.mp3" } , new List<string>(){ "Human Bones", "Human Teeth", "Human Liver" })),
+            new Mission("humanelabs", 2500 , 230*1000, new Vector3(3568.353f, 3664.556f, 33.20224f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/humane-juice.mp3", "sounds/AltJobs/humanelabs-chemical.mp3", "sounds/AltJobs/humanelabs-brain.mp3" }, new List<string>(){ "sounds/AltJobs/humane-juice-ending.mp3", "sounds/AltJobs/humane-chemical-ending.mp3", "sounds/AltJobs/humane-brain-ending.mp3" } , new List<string>(){ "Human Juice", "Questionable Chemicals", "Human Brain" })),
+            new Mission("nudistcolony", 3500 , 290*1000, new Vector3(-1097.769f, 4945.581f, 217.5335f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/nudistcolony-bones.mp3", "sounds/AltJobs/nudist-teeth.mp3", "sounds/AltJobs/nudistcolony-juice.mp3" }, new List<string>(){ "sounds/AltJobs/nudist-bone-ending.mp3", "sounds/AltJobs/nudist-teeth-ending.mp3", "sounds/AltJobs/nudist-juice-ending.mp3" } , new List<string>(){ "Human Bones", "Human Teeth", "Human Juice" })),
+            new Mission("butcher", 3500 , 290*1000, new Vector3(-163.5959f, 6191.262f, 30.98f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/butcher-brain.mp3", "sounds/AltJobs/butcher-liver.mp3", "sounds/AltJobs/butcher-juice.mp3" }, new List<string>(){ "sounds/AltJobs/butcher-brain-end.mp3", "sounds/AltJobs/butcher-liver-end.mp3", "sounds/AltJobs/butcher-juice-end.mp3" } , new List<string>(){ "Human Brain", "Human Liver", "Human Juice" }))
         };
 
         public MorgueDelivery()
@@ -109,6 +110,11 @@ namespace AltJobs
         {
             this.job_started = true;
             this.mission_idx = rand.Next(this.missions.Count);
+            while (this.mission_idx == this.last_mission_idx)
+            {
+                this.mission_idx = rand.Next(this.missions.Count);
+            }
+            this.last_mission_idx = this.mission_idx;
             this.missions[this.mission_idx].RunJob();
         }
 
@@ -121,9 +127,8 @@ namespace AltJobs
         public readonly string mission_name;
         public readonly Vector3 end_point;
         public readonly ItemIdentifiers items;
-        
-        private static Random rand = new Random();
 
+        private bool has_item    = false;
         private bool is_job_done = false;
 
         private int mission_timer;
@@ -156,6 +161,7 @@ namespace AltJobs
         public async void RunJob()
         {
             await InitJob();
+            CheckForItemsOnceJobIsDone();
             while (!is_job_done)
             {
                 await Delay(5);
@@ -170,7 +176,7 @@ namespace AltJobs
         {
 
             this.is_job_done            = false;
-            this.mission_item           = rand.Next(this.items.item_names.Count);
+            this.mission_item           = new Random().Next(this.items.item_names.Count);
             this.mission_sound_file     = this.items.sound_files[this.mission_item];
             this.mission_sound_file_end = this.items.end_sound_files[this.mission_item];
             this.mission_item_name      = this.items.item_names[this.mission_item];
@@ -181,6 +187,15 @@ namespace AltJobs
             await FadeOut();
             SetTimer();
             API.SetNewWaypoint(this.end_point[0], this.end_point[1]);
+        }
+
+        public async void CheckForItemsOnceJobIsDone()
+        {
+            while (!this.is_job_done)
+            {
+                await Delay(10000);
+                this.has_item = Exports["GTALife"].countItems(this.mission_item_name) != 0;
+            }
         }
 
         private void PlayMissionDialog()
@@ -241,11 +256,11 @@ namespace AltJobs
             this.mission_timer = API.GetGameTimer() + this.base_timer;
         }
 
-        private void HandleIfPlayerIsOnMarker()
+        private async void HandleIfPlayerIsOnMarker()
         {
             if (this.distance_to_end <= 3.0)
             {
-                if (Exports["GTALife"].countItems(this.mission_item_name) == 0)
+                if (!this.has_item)
                 {
                     Shared.DrawTextSimple(string.Format("Insufficient {0}'s on person.", this.mission_item_name));
                     return;
@@ -255,6 +270,7 @@ namespace AltJobs
                 TriggerEvent("ShowInformationLeft", 2500, string.Format("You have successfully delivered {0}", this.mission_item_name));
                 TriggerEvent("removeItem", this.mission_item_name, 1);
                 TriggerEvent("addMoney", CalcPayout());
+                await FadeOut();
             }
         }
 
