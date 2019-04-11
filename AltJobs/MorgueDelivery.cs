@@ -18,20 +18,20 @@ namespace AltJobs
         private Vector3 marker_scale = new Vector3(4f, 4f, 4f);
         private Color  marker_color  = Color.FromArgb(150, 255, 255, 0);
 
-        private bool job_started = false;
+        private bool job_started            = false;
+        private Random rand                 = new Random();
 
-        private Random rand = new Random();
-
-        private int last_mission_idx = -1;
-        private int mission_idx      = 0;
+        private int last_mission_idx        = -1;
+        private int mission_idx             = 0;
+        
         private List<Mission> missions = new List<Mission>()
         {
-            new Mission("blackmarket", 2500, 210*1000, new Vector3(3788.968f, 4462.44f, 5.27f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/blackmarket-heart.mp3", "sounds/AltJobs/blackmarket-brain.mp3", "sounds/AltJobs/blackmarket-bones.mp3" }, new List<string>(){ "sounds/AltJobs/blackmarket-heart-ending.mp3", "html/sounds/AltJobs/blackmarket-brain-ending.mp3", "sounds/AltJobs/blackmarket-bones-ending.mp3" } , new List<string>(){ "Human Heart", "Human Brain", "Human Bones" })),
-            new Mission("docks", 1250, 95*1000, new Vector3(166.0794f, -3299.002f, 5.28f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/docks-juice.mp3", "sounds/AltJobs/docks-chemicals.mp3", "sounds/AltJobs/docks-fluids.mp3" }, new List<string>(){ "", "", "" } , new List<string>(){ "Human Juice", "Questionable Chemicals", "Embalming Fluid" })),
+            new Mission("blackmarket", 2500, 210*1000, new Vector3(3788.968f, 4462.44f, 5.27f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/blackmarket-heart.mp3", "sounds/AltJobs/blackmarket-brain.mp3", "sounds/AltJobs/blackmarket-bones.mp3" }, new List<string>(){ "sounds/AltJobs/blackmarket-heart-ending.mp3", "sounds/AltJobs/blackmarket-brain-ending.mp3", "sounds/AltJobs/blackmarket-bones-ending.mp3" } , new List<string>(){ "Human Heart", "Human Brain", "Human Bones" })),
+            new Mission("docks", 1250, 95*1000, new Vector3(166.0794f, -3299.002f, 5.28f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/docks-juice.mp3", "sounds/AltJobs/docks-chemicals.mp3", "sounds/AltJobs/docks-fluids.mp3" }, new List<string>(){ "sounds/AltJobs/dock-juice-end.mp3", "sounds/AltJobs/dock-chemicals-end.mp3", "sounds/AltJobs/docks-fluid-end.mp3" } , new List<string>(){ "Human Juice", "Questionable Chemicals", "Embalming Fluid" })),
             new Mission("airport", 1000 , 75*1000, new Vector3(-1022.813f, -2706.281f, 12.607f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/airport-bones.mp3", "sounds/AltJobs/airport-teeth.mp3", "sounds/AltJobs/airport-liver.mp3" }, new List<string>(){ "sounds/AltJobs/airport-bones-end.mp3", "sounds/AltJobs/airport-teeth-end.mp3", "sounds/AltJobs/airport-liver-end.mp3" } , new List<string>(){ "Human Bones", "Human Teeth", "Human Liver" })),
             new Mission("humanelabs", 2500 , 230*1000, new Vector3(3568.353f, 3664.556f, 33.20224f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/humane-juice.mp3", "sounds/AltJobs/humanelabs-chemical.mp3", "sounds/AltJobs/humanelabs-brain.mp3" }, new List<string>(){ "sounds/AltJobs/humane-juice-ending.mp3", "sounds/AltJobs/humane-chemical-ending.mp3", "sounds/AltJobs/humane-brain-ending.mp3" } , new List<string>(){ "Human Juice", "Questionable Chemicals", "Human Brain" })),
             new Mission("nudistcolony", 3500 , 290*1000, new Vector3(-1097.769f, 4945.581f, 217.5335f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/nudistcolony-bones.mp3", "sounds/AltJobs/nudist-teeth.mp3", "sounds/AltJobs/nudistcolony-juice.mp3" }, new List<string>(){ "sounds/AltJobs/nudist-bone-ending.mp3", "sounds/AltJobs/nudist-teeth-ending.mp3", "sounds/AltJobs/nudist-juice-ending.mp3" } , new List<string>(){ "Human Bones", "Human Teeth", "Human Juice" })),
-            new Mission("butcher", 3500 , 290*1000, new Vector3(-163.5959f, 6191.262f, 30.98f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/butcher-brain.mp3", "sounds/AltJobs/butcher-liver.mp3", "sounds/AltJobs/butcher-juice.mp3" }, new List<string>(){ "sounds/AltJobs/butcher-brain-end.mp3", "sounds/AltJobs/butcher-liver-end.mp3", "sounds/AltJobs/butcher-juice-end.mp3" } , new List<string>(){ "Human Brain", "Human Liver", "Human Juice" }))
+            new Mission("butcher", 3500 , 260*1000, new Vector3(-163.5959f, 6191.262f, 30.98f), new ItemIdentifiers(new List<string>(){ "sounds/AltJobs/butcher-brain.mp3", "sounds/AltJobs/butcher-liver.mp3", "sounds/AltJobs/butcher-juice.mp3" }, new List<string>(){ "sounds/AltJobs/butcher-brain-end.mp3", "sounds/AltJobs/butcher-liver-end.mp3", "sounds/AltJobs/butcher-juice-end.mp3" } , new List<string>(){ "Human Brain", "Human Liver", "Human Juice" }))
         };
 
         public MorgueDelivery()
@@ -99,7 +99,8 @@ namespace AltJobs
                 if (API.IsPedInAnyVehicle(Game.PlayerPed.Handle, false) && API.GetPedInVehicleSeat(API.GetVehiclePedIsIn(Game.PlayerPed.Handle, false), -1) == Game.PlayerPed.Handle)
                 {
                     StartJob();
-                } else
+                }
+                else
                 {
                     TriggerEvent("ShowInformationLeft", 5000, "You must be in a vehicle.");
                 }
@@ -265,12 +266,15 @@ namespace AltJobs
                     Shared.DrawTextSimple(string.Format("Insufficient {0}'s on person.", this.mission_item_name));
                     return;
                 }
+                int payout = CalcPayout();
                 this.is_job_done = true;
+
                 Exports["PlayExternalSounds"].PlaySound(this.mission_sound_file_end, .3f);
                 TriggerEvent("ShowInformationLeft", 2500, string.Format("You have successfully delivered {0}", this.mission_item_name));
                 TriggerEvent("removeItem", this.mission_item_name, 1);
-                TriggerEvent("addMoney", CalcPayout());
                 await FadeOut();
+                TriggerEvent("addMoney", payout);
+                TriggerEvent("ShowInformationLeft", 2500, string.Format("You made ${0}", payout));
             }
         }
 
