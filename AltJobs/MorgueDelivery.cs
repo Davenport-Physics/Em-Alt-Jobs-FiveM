@@ -129,7 +129,6 @@ namespace AltJobs
         public readonly Vector3 end_point;
         public readonly ItemIdentifiers items;
 
-        private bool has_item    = false;
         private bool is_job_done = false;
 
         private int mission_timer;
@@ -162,7 +161,6 @@ namespace AltJobs
         public async void RunJob()
         {
             await InitJob();
-            CheckForItemsOnceJobIsDone();
             while (!is_job_done)
             {
                 await Delay(5);
@@ -188,15 +186,6 @@ namespace AltJobs
             await FadeOut();
             SetTimer();
             API.SetNewWaypoint(this.end_point[0], this.end_point[1]);
-        }
-
-        public async void CheckForItemsOnceJobIsDone()
-        {
-            while (!this.is_job_done)
-            {
-                await Delay(10000);
-                this.has_item = Exports["GTALife"].countItems(this.mission_item_name) != 0;
-            }
         }
 
         private void PlayMissionDialog()
@@ -261,11 +250,6 @@ namespace AltJobs
         {
             if (this.distance_to_end <= 3.0)
             {
-                if (!this.has_item)
-                {
-                    Shared.DrawTextSimple(string.Format("Insufficient {0}'s on person.", this.mission_item_name));
-                    return;
-                }
                 int payout = CalcPayout();
                 this.is_job_done = true;
 
