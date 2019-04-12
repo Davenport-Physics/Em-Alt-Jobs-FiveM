@@ -18,11 +18,11 @@ namespace AltJobs
         private Vector3 marker_scale = new Vector3(4f, 4f, 4f);
         private Color  marker_color  = Color.FromArgb(150, 255, 255, 0);
 
-        private bool job_started            = false;
-        private Random rand                 = new Random();
+        private bool job_started     = false;
+        private Random rand          = new Random();
 
-        private int last_mission_idx        = -1;
-        private int mission_idx             = 0;
+        private int last_mission_idx = -1;
+        private int mission_idx      = 0;
         
         private List<Mission> missions = new List<Mission>()
         {
