@@ -2,6 +2,10 @@
 
 A set of alternative job/s, written in C#, for FiveM.
 
+## stripped-revo-additions branch
+
+For servers not <a href="https://forums.rmog.us/">Revolution Life RP</a>, be sure to check out the <a href="https://github.com/Davenport-Physics/Em-Alt-Jobs-FiveM/tree/stripped-revo-additions">stripped-revo-additions</a> branch.
+
 ## Jobs
 
 - <b>Organ Delivery</b>
