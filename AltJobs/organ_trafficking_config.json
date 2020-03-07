@@ -1,0 +1,166 @@
+{
+    "MorgueMissions": [
+        {
+            "Location": "blackmarket",
+            "Coords": [
+                3788.968,
+                4462.44,
+                5.27
+            ],
+            "AvailableTimeInSecs": 210,
+            "BasePay": 2000,
+            "Items": [
+                {
+                    "Item": "Human Heart",
+                    "IntroSound": "sounds/AltJobs/blackmarket-heart.mp3",
+                    "OutroSound": "sounds/AltJobs/blackmarket-heart-ending.mp3"
+                },
+                {
+                    "Item": "Human Brain",
+                    "IntroSound": "sounds/AltJobs/blackmarket-brain.mp3",
+                    "OutroSound": "sounds/AltJobs/blackmarket-brain-ending.mp3"
+                },
+                {
+                    "Item": "Human Bones",
+                    "IntroSound": "sounds/AltJobs/blackmarket-bones.mp3",
+                    "OutroSound": "sounds/AltJobs/blackmarket-bones-ending.mp3"
+                }
+            ]
+        },
+        {
+            "Location": "docks",
+            "Coords": [
+                166.0794,
+                -3299.002,
+                5.28
+            ],
+            "AvailableTimeInSecs": 105,
+            "BasePay": 750,
+            "Items": [
+                {
+                    "Item": "Human Juice",
+                    "IntroSound": "sounds/AltJobs/docks-juice.mp3",
+                    "OutroSound": "sounds/AltJobs/dock-juice-end.mp3"
+                },
+                {
+                    "Item": "Questionable Chemicals",
+                    "IntroSound": "sounds/AltJobs/docks-chemicals.mp3",
+                    "OutroSound": "sounds/AltJobs/dock-chemicals-end.mp3"
+                },
+                {
+                    "Item": "Embalming Fluid",
+                    "IntroSound": "sounds/AltJobs/docks-fluids.mp3",
+                    "OutroSound": "sounds/AltJobs/docks-fluid-end.mp3"
+                }
+            ]
+        },
+        {
+            "Location": "airport",
+            "Coords": [
+                -1022.813,
+                -2706.281,
+                12.607
+            ],
+            "AvailableTimeInSecs": 90,
+            "BasePay": 500,
+            "Items": [
+                {
+                    "Item": "Human Bones",
+                    "IntroSound": "sounds/AltJobs/airport-bones.mp3",
+                    "OutroSound": "sounds/AltJobs/airport-bones-end.mp3"
+                },
+                {
+                    "Item": "Human Teeth",
+                    "IntroSound": "sounds/AltJobs/airport-teeth.mp3",
+                    "OutroSound": "sounds/AltJobs/airport-teeth-end.mp3"
+                },
+                {
+                    "Item": "Human Liver",
+                    "IntroSound": "sounds/AltJobs/airport-liver.mp3",
+                    "OutroSound": "sounds/AltJobs/airport-liver-end.mp3"
+                }
+            ]
+        },
+        {
+            "Location": "humanelabs",
+            "Coords": [
+                3568.353,
+                3664.556,
+                33.20224
+            ],
+            "AvailableTimeInSecs": 230,
+            "BasePay": 2000,
+            "Items": [
+                {
+                    "Item": "Human Juice",
+                    "IntroSound": "sounds/AltJobs/humane-juice.mp3",
+                    "OutroSound": "sounds/AltJobs/humane-juice-ending.mp3"
+                },
+                {
+                    "Item": "Questionable Chemicals",
+                    "IntroSound": "sounds/AltJobs/humanelabs-chemical.mp3",
+                    "OutroSound": "sounds/AltJobs/humane-chemical-ending.mp3"
+                },
+                {
+                    "Item": "Human Brain",
+                    "IntroSound": "sounds/AltJobs/humanelabs-brain.mp3",
+                    "OutroSound": "sounds/AltJobs/humane-brain-ending.mp3"
+                }
+            ]
+        },
+        {
+            "Location": "nudistcolony",
+            "Coords": [
+                -1097.769,
+                4945.581,
+                217.5335
+            ],
+            "AvailableTimeInSecs": 290,
+            "BasePay": 3000,
+            "Items": [
+                {
+                    "Item": "Human Bones",
+                    "IntroSound": "sounds/AltJobs/nudistcolony-bones.mp3",
+                    "OutroSound": "sounds/AltJobs/nudist-bone-ending.mp3"
+                },
+                {
+                    "Item": "Human Teeth",
+                    "IntroSound": "sounds/AltJobs/nudist-teeth.mp3",
+                    "OutroSound": "sounds/AltJobs/nudist-teeth-ending.mp3"
+                },
+                {
+                    "Item": "Human Juice",
+                    "IntroSound": "sounds/AltJobs/nudistcolony-juice.mp3",
+                    "OutroSound": "sounds/AltJobs/nudist-juice-ending.mp3"
+                }
+            ]
+        },
+        {
+            "Location": "butcher",
+            "Coords": [
+                -163.5959,
+                6191.262,
+                30.98
+            ],
+            "AvailableTimeInSecs": 260,
+            "BasePay": 3000,
+            "Items": [
+                {
+                    "Item": "Human Brain",
+                    "IntroSound": "sounds/AltJobs/butcher-brain.mp3",
+                    "OutroSound": "sounds/AltJobs/butcher-brain-end.mp3"
+                },
+                {
+                    "Item": "Human Liver",
+                    "IntroSound": "sounds/AltJobs/butcher-liver.mp3",
+                    "OutroSound": "sounds/AltJobs/butcher-liver-end.mp3"
+                },
+                {
+                    "Item": "Human Juice",
+                    "IntroSound": "sounds/AltJobs/butcher-juice.mp3",
+                    "OutroSound": "sounds/AltJobs/butcher-juice-end.mp3"
+                }
+            ]
+        }
+    ]
+}
