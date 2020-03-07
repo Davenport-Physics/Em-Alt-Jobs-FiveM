@@ -44,14 +44,12 @@ namespace AltJobs
             while (true)
             {
                 this.distance_to_marker = Vector3.Distance(Game.PlayerPed.Position, this.morgue_point);
+
                 if (this.distance_to_marker >= 75)
-                {
                     await Delay(5000);
-                }
                 else
-                {
                     await CheckForNewJobOrExisting();
-                }
+
             }
         }
 
@@ -79,17 +77,13 @@ namespace AltJobs
         private void DrawSceneMarkerIfNeeded()
         {
             if (this.distance_to_marker <= 25)
-            {
                 World.DrawMarker(MarkerType.VerticalCylinder, this.marker_pos, this.marker_dir, this.marker_rot, this.marker_scale, this.marker_color);
-            }
         }
 
         private void DrawTextIfNecessary()
         {
             if (this.distance_to_marker <= 3 && !this.job_started)
-            {
                 Shared.DrawTextSimple("Press ~g~Enter~w~ to start job.");
-            }
         }
 
         private void HandleInput()
@@ -97,13 +91,9 @@ namespace AltJobs
             if (this.distance_to_marker <= 3 && !this.job_started && API.IsControlJustPressed(1, 18))
             {
                 if (API.IsPedInAnyVehicle(Game.PlayerPed.Handle, false) && API.GetPedInVehicleSeat(API.GetVehiclePedIsIn(Game.PlayerPed.Handle, false), -1) == Game.PlayerPed.Handle)
-                {
                     StartJob();
-                }
                 else
-                {
                     TriggerEvent("ShowInformationLeft", 5000, "You must be in a vehicle.");
-                }
             }
         }
 
@@ -111,10 +101,10 @@ namespace AltJobs
         {
             this.job_started = true;
             this.mission_idx = rand.Next(this.missions.Count);
+
             while (this.mission_idx == this.last_mission_idx)
-            {
                 this.mission_idx = rand.Next(this.missions.Count);
-            }
+
             this.last_mission_idx = this.mission_idx;
             this.missions[this.mission_idx].RunJob();
         }
@@ -209,17 +199,11 @@ namespace AltJobs
         {
             int diff = (int)((this.mission_timer - API.GetGameTimer()) * 0.001);
             if (diff >= 120)
-            {
                 Shared.DrawTextSimple(string.Format("~g~{0}~w~ seconds left", diff));
-            }
             else if (diff >= 60)
-            {
                 Shared.DrawTextSimple(string.Format("~y~{0}~w~ seconds left", diff));
-            }
             else
-            {
                 Shared.DrawTextSimple(string.Format("~r~{0}~w~ seconds left", diff));
-            }
         }
 
         private void CheckIfRanOutOfTime()
@@ -236,9 +220,7 @@ namespace AltJobs
         {
             this.distance_to_end = Vector3.Distance(Game.PlayerPed.Position, this.end_point);
             if (this.distance_to_end <= 30)
-            {
                 World.DrawMarker(MarkerType.VerticalCylinder, this.end_point, Mission.marker_dir, Mission.marker_rot, Mission.marker_scale, Mission.marker_color);
-            }
         }
 
         private void SetTimer()
